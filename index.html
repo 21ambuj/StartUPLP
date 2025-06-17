@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adarsh Video Graphy - A Cinematic Experience</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js for interactivity (used for header) -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Custom Styles & Animations -->
+    <style>
+        /* Define custom fonts */
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #374151; /* Default text color: gray-700 */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1e293b; /* Default heading color: slate-800 */
+        }
+
+        /* Light animated gradient background for the body */
+        .animated-gradient-bg {
+            background: linear-gradient(45deg, #f0f9ff, #e0f2fe, #f0f9ff, #ecfeff);
+            background-size: 400% 400%;
+            animation: gradient-animation 20s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Hero section background with subtle animation */
+        .hero-bg {
+            background-size: cover;
+            background-position: center;
+            animation: zoom-in-out 25s ease-in-out infinite;
+        }
+
+        @keyframes zoom-in-out {
+            0%, 100% { background-size: 100% 100%; }
+            50% { background-size: 110% 110%; }
+        }
+        
+        /* Interactive Card Glow Effect - More Visible */
+        .interactive-glow-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .interactive-glow-card:before {
+            content: '';
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            transform: translate(-50%, -50%);
+            width: 0px;
+            height: 0px;
+            background: radial-gradient(circle closest-side, #14b8a6, transparent); /* Teal color */
+            transition: width 0.4s, height 0.4s;
+            opacity: 0.25; /* Increased opacity for more visibility */
+        }
+        .interactive-glow-card:hover:before {
+            width: 500px; /* Increased size for more impact */
+            height: 500px;
+        }
+
+        /* On-scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+    <style>
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.75rem; /* 12px */
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+    }
+    .gallery-item:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    }
+    .gallery-item img {
+        transition: transform 0.4s ease;
+    }
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+    .gallery-item .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem;
+    }
+    .gallery-item:hover .overlay {
+        opacity: 1;
+    }
+    .gallery-item .overlay-text {
+        color: white;
+        font-weight: 600;
+        font-size: 1.125rem; /* 18px */
+        transform: translateY(15px);
+        opacity: 0;
+        transition: transform 0.3s ease 0.1s, opacity 0.3s ease 0.1s;
+    }
+    .gallery-item:hover .overlay-text {
+        transform: translateY(0);
+        opacity: 1;
+    }
+</style>
+</head>
+<body class="animated-gradient-bg">
+
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-white/80 backdrop-blur-md fixed w-full z-50 transition-all duration-300 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-2xl sm:text-3xl font-black uppercase tracking-widest flex items-center">
+                    <span class="text-slate-800">Adarsh</span>
+                    <span class="text-teal-600 mx-1">Video</span>
+                    <span class="text-slate-800">Graphy</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-gray-600 hover:text-teal-600 font-semibold transition-colors">Services</a>
+                    <a href="#equipment" class="text-gray-600 hover:text-teal-600 font-semibold transition-colors">Equipment</a>
+                    <a href="#gallery" class="text-gray-600 hover:text-teal-600 font-semibold transition-colors">Gallery</a>
+                    <a href="#contact" class="px-6 py-2 text-white bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all hover:scale-105 font-semibold">Contact Us</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-800 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+             <!-- Mobile Nav -->
+            <div x-show="mobileMenuOpen" x-transition class="md:hidden mt-4 space-y-4 bg-white/95 p-6 rounded-lg shadow-lg">
+                <a href="#services" @click="mobileMenuOpen = false" class="block text-gray-700 hover:text-teal-600 transition-colors py-2 font-semibold">Services</a>
+                <a href="#equipment" @click="mobileMenuOpen = false" class="block text-gray-700 hover:text-teal-600 transition-colors py-2 font-semibold">Equipment</a>
+                <a href="#gallery" @click="mobileMenuOpen = false" class="block text-gray-700 hover:text-teal-600 transition-colors py-2 font-semibold">Gallery</a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block mt-2 px-5 py-2 text-white bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full w-full text-center font-semibold">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg h-screen flex items-center justify-center text-center text-white relative overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1505238680356-667803448bb6?q=80&w=2070&auto=format&fit=crop');">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="container mx-auto px-6 z-10">
+                <h1 class="text-5xl md:text-8xl font-black uppercase reveal text-white">Crafting Your Heaven</h1>
+                <p class="text-xl md:text-2xl mt-4 max-w-3xl mx-auto font-light reveal text-gray-200" style="transition-delay: 0.2s;">Cinematic films, vibrant DJ nights, and breathtaking decor. We don't just capture events, we create experiences.</p>
+                <a href="#contact" class="mt-8 inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-110 reveal" style="transition-delay: 0.4s;">
+                    Bring Your Vision to Life
+                </a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-16 reveal">Our Core Services</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal">
+                        <h3 class="text-3xl font-bold text-teal-600 mb-4">Cinematography</h3>
+                        <p class="text-gray-600">Story-driven films for weddings, corporate events, and personal milestones, capturing every emotion in cinematic detail.</p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 0.2s;">
+                        <h3 class="text-3xl font-bold text-sky-600 mb-4">DJ & Sound</h3>
+                        <p class="text-gray-600">Electrifying DJ sets with state-of-the-art sound systems that guarantee an unforgettable party atmosphere.</p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 0.4s;">
+                        <h3 class="text-3xl font-bold text-amber-600 mb-4">Decor & Lighting</h3>
+                        <p class="text-gray-600">Transforming venues with creative lighting and bespoke decorations to create the perfect ambiance for any occasion.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Equipment Section -->
+        <section id="equipment" class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-16 reveal">The Tools of Our Craft</h2>
+                
+                <!-- Equipment Item 1 -->
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-16 mb-16 items-center">
+                    <div class="reveal">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1964&auto=format&fit=crop" class="rounded-2xl shadow-xl" alt="4K Camera" onerror="this.onerror=null;this.src='https://placehold.co/600x400/dde/333?text=Camera';">
+                    </div>
+                    <div class="reveal" style="transition-delay: 0.2s;">
+                        <h3 class="text-3xl lg:text-4xl font-bold text-teal-600 mb-4">Professional Cameras</h3>
+                        <p class="text-gray-600 text-lg mb-6">We use a versatile range of high-end cameras to ensure every shot is perfect, no matter the angle or lighting.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-teal-100 text-teal-800 px-4 py-2 rounded-full font-semibold text-sm">4K Cinema Cameras</span>
+                            <span class="bg-teal-100 text-teal-800 px-4 py-2 rounded-full font-semibold text-sm">Aerial Drones</span>
+                            <span class="bg-teal-100 text-teal-800 px-4 py-2 rounded-full font-semibold text-sm">Crane & Jib Setups</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Equipment Item 2 -->
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-16 mb-16 items-center">
+                    <div class="reveal md:order-last">
+                         <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=2070&auto=format&fit=crop" class="rounded-2xl shadow-xl" alt="DJ Setup" onerror="this.onerror=null;this.src='https://placehold.co/600x400/dde/333?text=DJ+Gear';">
+                    </div>
+                    <div class="reveal md:order-first text-left md:text-right">
+                         <h3 class="text-3xl lg:text-4xl font-bold text-sky-600 mb-4">DJ & Sound Setup</h3>
+                        <p class="text-gray-600 text-lg mb-6">Our audio gear is tour-grade, delivering crisp, powerful sound that fills any space and gets everyone moving.</p>
+                        <div class="flex flex-wrap gap-3 md:justify-end">
+                            <span class="bg-sky-100 text-sky-800 px-4 py-2 rounded-full font-semibold text-sm">Professional DJ Decks</span>
+                            <span class="bg-sky-100 text-sky-800 px-4 py-2 rounded-full font-semibold text-sm">High-Fidelity Speakers</span>
+                             <span class="bg-sky-100 text-sky-800 px-4 py-2 rounded-full font-semibold text-sm">Wireless Microphones</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Equipment Item 3 -->
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="reveal">
+                        <img src="https://images.unsplash.com/photo-1630381962685-b2c8dbe97ca2?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="rounded-2xl shadow-xl" alt="Event Lighting" onerror="this.onerror=null;this.src='https://placehold.co/600x400/dde/333?text=Lighting';">
+                    </div>
+                    <div class="reveal" style="transition-delay: 0.2s;">
+                        <h3 class="text-3xl lg:text-4xl font-bold text-amber-600 mb-4">Lighting & Ambience</h3>
+                        <p class="text-gray-600 text-lg mb-6">From subtle mood lighting to dazzling light shows, our equipment transforms any venue into a magical space.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-amber-100 text-amber-800 px-4 py-2 rounded-full font-semibold text-sm">LED Uplighting</span>
+                            <span class="bg-amber-100 text-amber-800 px-4 py-2 rounded-full font-semibold text-sm">Moving Head Lights</span>
+                            <span class="bg-amber-100 text-amber-800 px-4 py-2 rounded-full font-semibold text-sm">Laser Shows</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="py-24">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-16 reveal">A Glimpse of Our Creations</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            
+            <!-- Column 1 -->
+            <div class="grid gap-4">
+                <div class="reveal gallery-item" style="transition-delay: 0.1s;">
+                    <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1523438943993-18d451145137?q=80&w=1974&auto=format&fit=crop" alt="Marriage" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eee/333?text=Marriage';">
+                    <div class="overlay">
+                        <p class="overlay-text">Marriage</p>
+                    </div>
+                </div>
+                <div class="reveal gallery-item" style="transition-delay: 0.2s;">
+                    <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1604186837725-3454a3bdd2f6?q=80&w=2070&auto=format&fit=crop" alt="Birthday" onerror="this.onerror=null;this.src='https://placehold.co/400x400/eee/333?text=Birthday';">
+                </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="grid gap-4">
+                <div class="reveal gallery-item" style="transition-delay: 0.3s;">
+                    <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1606216836560-25cf33c04b0d?q=80&w=687&auto=format&fit=crop" alt="Stage Decoration" onerror="this.onerror=null;this.src='https://placehold.co/400x500/eee/333?text=Stage+Decor';">
+                    <div class="overlay">
+                        <p class="overlay-text">Stage Decor</p>
+                    </div>
+                </div>
+                <div class="reveal gallery-item" style="transition-delay: 0.4s;">
+                    <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1574691252136-193e792ab41f?q=80&w=2071&auto=format&fit=crop" alt="Anniversary" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eee/333?text=Anniversary';">
+                </div>
+            </div>
+
+            <!-- Column 3 -->
+            <div class="grid gap-4">
+                <div class="reveal gallery-item" style="transition-delay: 0.5s;">
+                    <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070&auto=format&fit=crop" alt="Floral Decoration" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eee/333?text=Floral+Decor';">
+                    <div class="overlay">
+                        <p class="overlay-text">Floral Decor</p>
+                    </div>
+                </div>
+                <div class="reveal gallery-item" style="transition-delay: 0.6s;">
+                     <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1583875323946-81a6c4784a20?q=80&w=1974&auto=format&fit=crop" alt="Birthday Party" onerror="this.onerror=null;this.src='https://placehold.co/400x400/eee/333?text=Birthday+Party';">
+                </div>
+            </div>
+
+            <!-- Column 4 -->
+            <div class="grid gap-4">
+                <div class="reveal gallery-item" style="transition-delay: 0.7s;">
+                     <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1597845339241-558465d1b748?q=80&w=1964&auto=format&fit=crop" alt="Wedding Aisle" onerror="this.onerror=null;this.src='https://placehold.co/400x500/eee/333?text=Wedding';">
+                     <div class="overlay">
+                        <p class="overlay-text">Wedding Aisle</p>
+                    </div>
+                </div>
+                <div class="reveal gallery-item" style="transition-delay: 0.8s;">
+                    <img class="h-auto max-w-full" src="https://images.unsplash.com/photo-1593096322908-d1685568c8aa?q=80&w=687&auto=format&fit=crop" alt="Event Tent" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eee/333?text=Event+Tent';">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-4 reveal">Let's Create Magic</h2>
+                    <p class="text-lg text-gray-600 mb-12 reveal">Tell us about your event, and we'll craft a custom package just for you.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12 shadow-2xl reveal interactive-glow-card"
+                     @mousemove="e => { e.currentTarget.style.setProperty('--x', `${e.offsetX}px`); e.currentTarget.style.setProperty('--y', `${e.offsetY}px`); }">
+                    <!-- 
+                        IMPORTANT: Replace the action URL with your own from Formspree.
+                    -->
+                    <form action="https://formspree.io/f/xeokknrz" method="POST" class="relative z-10">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" name="name" placeholder="Your Name" class="w-full bg-slate-100 text-gray-700 p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all" required>
+                            <input type="email" name="email" placeholder="Your Email" class="w-full bg-slate-100 text-gray-700 p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all" required>
+                        </div>
+                        <div class="mt-6">
+                            <input type="text" name="event_type" placeholder="Event Type (e.g., Wedding, Birthday)" class="w-full bg-slate-100 text-gray-700 p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all">
+                        </div>
+                        <div class="mt-6">
+                            <textarea name="message" placeholder="Tell us more about your event..." rows="5" class="w-full bg-slate-100 text-gray-700 p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="mt-8 inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-110">
+                                Send Inquiry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2025 Adarsh Video Graphy. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Designed with ❤️</p>
+        </div>
+    </footer>
+    
+    <script>
+        // JS for on-scroll reveal animations
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // The old handleFormSubmit function is no longer needed.
+        // Formspree handles the submission.
+    </script>
+</body>
+</html>
